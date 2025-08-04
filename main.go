@@ -25,5 +25,5 @@ func main() {
 		h = middleware.Logger(h)
 	}
 
-	log.Fatal(http.ListenAndServe(":8080", h))
+	log.Fatal(http.ListenAndServe("0.0.0.0:8080", h))
 }
