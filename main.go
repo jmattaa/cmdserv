@@ -1,23 +1,23 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
-	"os/exec"
 
 	"github.com/jmattaa/cmdserv/middleware"
+	"github.com/jmattaa/cmdserv/endpoints"
 )
 
 const DEBUG = true
 
 func main() {
+	if err := endpoints.Init(); err != nil {
+		log.Fatal(err)
+	}
+
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		err := exec.Command("open", "/Applications/Spotify.app").Run()
-		if err != nil {
-			fmt.Fprintf(w, "Error: %s", err)
-		}
+		endpoints.Handle(w, r)
 	})
 
 	var h http.Handler = mux
